@@ -28,6 +28,8 @@ top_x, top_y, x, y = get_parameters()
 len_x, len_y = int(x * args.region[0]), int(y * args.region[1])
 top_x, top_y = int(top_x + x // 2 * (1. - args.region[0])), int(top_y + y // 2 * (1. - args.region[1]))
 monitor = {'left': top_x, 'top': top_y, 'width': len_x, 'height': len_y}
+source = str('screen')
+screenshot = source.lower().startswith('screen')
 
 # Load model
 device = '0' if args.use_cuda else 'cpu'
@@ -35,18 +37,14 @@ device = select_device(device)
 model = DetectMultiBackend(args.weights, device=device, dnn=False, data='./data/coco128.yaml', fp16=False)
 stride, names, pt = model.stride, model.names, model.pt
 imgsz = check_img_size(args.imgsz, s=stride)  # check image size
-
-source = str('screen')
-screenshot = source.lower().startswith('screen')
-
 model.warmup(imgsz=(1 if pt or model.triton else 1, 3, *imgsz))  # warmup
 seen, windows, dt = 0, [], (Profile(), Profile(), Profile())
 
 t0 = time.time()
 while True:
     img0 = grab_screen_mss(monitor)
-    t1 = time.time()
-    print('1:', t1 - t0)
+    # t1 = time.time()
+    # print('1:', t1 - t0)
     img = cv2.resize(img0, (640, 640))
     img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
 
@@ -55,8 +53,8 @@ while True:
     img = np.ascontiguousarray(img)
     img = np.reshape(img, (1, 3, 640, 640))
 
-    t2 = time.time()
-    print('2:', t2 - t1)
+    # t2 = time.time()
+    # print('2:', t2 - t1)
 
     # preprocessing
     with dt[0]:
@@ -66,8 +64,8 @@ while True:
         if len(im.shape) == 3:
             im = im[None]  # expand for batch dim
 
-    t3 = time.time()
-    print('3:', t3 - t2)
+    # t3 = time.time()
+    # print('3:', t3 - t2)
 
     # Inference
     with dt[1]:
@@ -77,8 +75,8 @@ while True:
     with dt[2]:
         pred = non_max_suppression(pred, conf_thres=args.conf_thres, iou_thres=args.iou_thres)
 
-    t4 = time.time()
-    print('4:', t4 - t3)
+    # t4 = time.time()
+    # print('4:', t4 - t3)
 
     targets = []
     for i, det in enumerate(pred):
@@ -110,8 +108,8 @@ while True:
                 color = (0, 255, 0)
                 cv2.rectangle(img0, top_left, bottom_right, color, 3)
 
-    t5 = time.time()
-    print('5:', t5 - t4)
+    # t5 = time.time()
+    # print('5:', t5 - t4)
 
     if args.show_window:
         cv2.namedWindow('detection', cv2.WINDOW_NORMAL)
@@ -120,8 +118,8 @@ while True:
             cv2.putText(img0, "FPS:{:.1f}".format(1. / (time.time() - t0)), (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 2,
                         (0, 0, 235), 4)
 
-            t6 = time.time()
-            print('6:', t6 - t5)
+            # t6 = time.time()
+            # print('6:', t6 - t5)
             print(1. / (time.time() - t0))
             t0 = time.time()
         cv2.imshow('detection', img0)
