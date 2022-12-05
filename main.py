@@ -40,8 +40,12 @@ imgsz = check_img_size(args.imgsz, s=stride)  # check image size
 model.warmup(imgsz=(1 if pt or model.triton else 1, 3, *imgsz))  # warmup
 seen, windows, dt = 0, [], (Profile(), Profile(), Profile())
 
+print('detection activated')
+
 t0 = time.time()
+count = 0
 while True:
+    count += 1
     img0 = grab_screen_mss(monitor)
     # t1 = time.time()
     # print('1:', t1 - t0)
@@ -120,7 +124,8 @@ while True:
 
             # t6 = time.time()
             # print('6:', t6 - t5)
-            print(1. / (time.time() - t0))
+            if count % 20 == 0:
+                print(1. / (time.time() - t0))
             t0 = time.time()
         cv2.imshow('detection', img0)
 
