@@ -9,7 +9,7 @@ from utils.torch_utils import select_device
 from utils.general import check_img_size, Profile, non_max_suppression, scale_boxes, xyxy2xywh
 from utils.augmentations import letterbox
 from models.common import DetectMultiBackend
-from screen_inf import grab_screen_mss, get_parameters
+from utils.screen_inf import grab_screen_mss, get_parameters
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--show-window', type=bool, default=True, help='Show real-time detection window.')
