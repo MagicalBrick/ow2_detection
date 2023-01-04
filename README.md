@@ -33,9 +33,13 @@ convert your own engine model, which will increase your detection frame rate to 
 个engine模型。显卡算力以及各种依赖包版本不同会导致engine模型不通用，所以你必须得使用export.py文件转换出
 你自己的engine模型。这将使你的检测帧率提高到60帧以上。
 
-### run export.py
+### NO accelerating inference
+```python3 main.py --model ./ow2_s.pt```
 
-If you want to run export.py, you can run the following command line on anaconda.
+### Accelerating inference with TRT
+
+If you want to accelerate inference with TRT, you can run the following command line on anaconda.
+This will create a virtual environment which allow you to use tensorTRT to export your xx.pt model to xx.engine model.
 
 如果想运行export.py，可以在anaconda上运行以下命令行.
 ```
@@ -57,7 +61,18 @@ code!**
 
 **注意：在使用以上代码前请检测你的显卡支持的cuda版本！**
 
-### run main.py
+After the virtual environment is created and the dependencies are installed (all the above codes run without error), you can run export.py.
+
+```
+cd X:/.../ow2_detection
+conda activate yoloTRT
+python3 export.py
+```
+
+After this, we will get a .engine file. with this model, we can begin the detection now.And remember to switch back to the original environment. Because the virtual environment we created just now is just for TRT acceleration.
+
+```conda deactivate```
+
 
 **Please install the following dependencies in advance: cuda, cuDNN, tensorRT, and the
 corresponding version of torch**
@@ -70,6 +85,12 @@ please run ```pip install **```. (*** is the dependent package name)
 运行以下代码安装依赖包。如果遇到安装失败的情况，请运行```pip install **```。（***是依赖包名称）
 
 ```pip install -r requirements.txt```
+
+After all dependent packages are installed, run the following code to run the program
+
+```python3 main.py --model ow2_s.engine```
+
+
 
 ## demo video 演示视频
 https://youtu.be/oBoWyB3-PEE
