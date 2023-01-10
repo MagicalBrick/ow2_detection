@@ -134,5 +134,5 @@ while True:
     win32gui.SetWindowPos(hwnd, win32con.HWND_TOPMOST, 0, 0, 0, 0, win32con.SWP_NOMOVE | win32con.SWP_NOSIZE)
 
     if cv2.waitKey(1) & 0xFF == ord('p'):
-        cv2.destoryAllWindows()
+        cv2.destroyAllWindows()
         break

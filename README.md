@@ -1,6 +1,8 @@
 # ow2_detection
  Experimental real-time tracking project using yolov5.
 
+![Image text](https://github.com/MagicalBrick/ow2_detection/blob/main/demonstration/1.gif)
+
 Recently launched yolov7, which is very interesting, it simplifies the code of yolov5 and
 greatly improves the speed of inference. So I am wondering if I can use yolov5 to write a
 real-time detection project, and use yolov7 to do real-time detection after successfully
@@ -94,4 +96,11 @@ After all dependent packages are installed, run the following code to run the pr
 
 ## demo video 演示视频
 https://youtu.be/oBoWyB3-PEE
+
+# mouse movement 鼠标移动
+
+鼠标移动的功能在最近已经实现了。但是我并不打算将代码公开，只是在这里做一个效果展示。为了电脑挪动鼠标的操作更像玩家的操作，应用了PID补偿技术。
+The functionality of mouse movement has been implemented recently. But I don't intend to make the code public, just to show the effect here. In order to make the operation of the computer move the mouse more like the player's operation, PID compensation technology is applied.
+
+![Image text](https://github.com/MagicalBrick/ow2_detection/blob/main/demonstration/2.gif)
 
